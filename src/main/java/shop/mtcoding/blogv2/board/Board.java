@@ -8,6 +8,7 @@ import shop.mtcoding.blogv2.user.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -31,10 +32,10 @@ public class Board {
     private User user;
 
     @CreationTimestamp
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @Builder
-    public Board(Integer id, String title, String content, User user, Timestamp createdAt) {
+    public Board(Integer id, String title, String content, User user, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
