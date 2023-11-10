@@ -3,23 +3,25 @@
 <div class="container p-5">
 
     <!-- 수정삭제버튼 -->
+    {{#board.isOwner}}
     <div class="d-flex justify-content-end">
         <a class="btn btn-warning me-1" href="/board/1/updateForm">수정</a>
         <form action="/board/1/delete" method="post">
             <button type="submit" class="btn btn-danger">삭제</button>
         </form>
     </div>
+    {{/board.isOwner}}
 
     <!-- 게시글내용 -->
     <div>
         <div class="d-flex justify-content-between align-items-end">
-            <h2><b>제목1</b></h2>
-            <div>작성자 : ssar</div>
+            <h2><b>{{board.title}}</b></h2>
+            <div>작성자 : {{board.username}}</div>
         </div>
         <hr />
 
         <div class="m-4 p-2">
-            내용1
+            {{board.content}}
         </div>
     </div>
 

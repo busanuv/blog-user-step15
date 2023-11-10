@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shop.mtcoding.blogv2._core.error.ex.Exception404;
 import shop.mtcoding.blogv2._core.error.ex.Exception500;
 import shop.mtcoding.blogv2.user.User;
 
@@ -32,4 +33,10 @@ public class BoardService {
     }
 
 
+    public BoardResponse.DetailDTO 게시글상세보기(Integer id, User sessionUser) {
+        Board boardPS = boardRepository.findById(id).orElseThrow(
+                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : "+id)
+        );
+        return new BoardResponse.DetailDTO(boardPS, sessionUser);
+    }
 }
