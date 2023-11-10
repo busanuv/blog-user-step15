@@ -30,4 +30,6 @@ public class BoardService {
         List<Board> boardListPS = boardRepository.findAll();
         return boardListPS.stream().map(board -> new BoardResponse.DTO(board)).collect(Collectors.toList());
     }
+
+
 }

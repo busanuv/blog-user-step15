@@ -4,6 +4,8 @@ import lombok.Data;
 
 public class BoardResponse {
 
+
+
     @Data
     public static class DTO {
         private int id;
@@ -14,4 +16,5 @@ public class BoardResponse {
             this.title = board.getTitle();
         }
     }
+
 }
