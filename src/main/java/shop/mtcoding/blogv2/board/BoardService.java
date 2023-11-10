@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shop.mtcoding.blogv2._core.error.ex.Exception403;
 import shop.mtcoding.blogv2._core.error.ex.Exception404;
 import shop.mtcoding.blogv2._core.error.ex.Exception500;
 import shop.mtcoding.blogv2.user.User;
@@ -39,4 +40,26 @@ public class BoardService {
         );
         return new BoardResponse.DetailDTO(boardPS, sessionUser);
     }
+
+    public BoardResponse.UpdateFormDTO 게시글수정폼보기(Integer id, User sessionUser) {
+        Board boardPS = boardRepository.findById(id).orElseThrow(
+                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : "+id)
+        );
+
+        if(sessionUser.getId() != boardPS.getUser().getId()){
+            throw new Exception403("당신은 해당 게시글을 수정할 권한이 없어요");
+        }
+        return new BoardResponse.UpdateFormDTO(boardPS);
+    }
+
+    @Transactional
+    public void 게시글수정하기(Integer id, BoardRequest.UpdateDTO requestDTO, User sessionUser) {
+        Board boardPS = boardRepository.findById(id).orElseThrow(
+                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : "+id)
+        );
+        if(sessionUser.getId() != boardPS.getUser().getId()){
+            throw new Exception403("당신은 해당 게시글을 수정할 권한이 없어요");
+        }
+        boardPS.update(requestDTO.getTitle(), requestDTO.getContent());
+    } // 더티 채킹
 }

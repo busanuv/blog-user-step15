@@ -33,7 +33,7 @@ public class UserService {
 
         // else 사용 자제 (if를 필터링 방식으로 사용)
         if(userPS == null){
-            throw new Exception401("아이디 혹은 패스워드가 틀렸습니다");
+            throw new Exception401("아이디 혹은 패스워드가 틀렸습니다", true);
         }
         return userPS;
     }

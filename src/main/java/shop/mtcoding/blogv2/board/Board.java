@@ -43,4 +43,9 @@ public class Board {
         this.createdAt = createdAt;
     }
 
+    // 의미있는 setter 만들기
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
