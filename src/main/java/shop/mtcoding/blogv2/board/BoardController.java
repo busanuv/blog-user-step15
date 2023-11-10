@@ -36,7 +36,12 @@ public class BoardController {
     }
 
     @PostMapping("/board/{id}/delete")
-    public @ResponseBody String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Integer id) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if(sessionUser == null){
+            throw new Exception401("인증이 필요해요", false);
+        }
+        boardService.게시글삭제하기(id, sessionUser);
         return "redirect:/";
     }
 

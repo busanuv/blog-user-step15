@@ -62,4 +62,15 @@ public class BoardService {
         }
         boardPS.update(requestDTO.getTitle(), requestDTO.getContent());
     } // 더티 채킹
+
+    @Transactional
+    public void 게시글삭제하기(Integer id, User sessionUser) {
+        Board boardPS = boardRepository.findById(id).orElseThrow(
+                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : "+id)
+        );
+        if(sessionUser.getId() != boardPS.getUser().getId()){
+            throw new Exception403("당신은 해당 게시글을 삭제할 권한이 없어요");
+        }
+        boardRepository.deleteById(boardPS.getId());
+    }
 }
