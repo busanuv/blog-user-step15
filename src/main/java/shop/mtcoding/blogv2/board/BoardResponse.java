@@ -1,7 +1,13 @@
 package shop.mtcoding.blogv2.board;
 
 import lombok.Data;
+import shop.mtcoding.blogv2.reply.Reply;
+import shop.mtcoding.blogv2.reply.ReplyResponse;
 import shop.mtcoding.blogv2.user.User;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BoardResponse {
 
@@ -24,6 +30,7 @@ public class BoardResponse {
         private int userId;
         private String username;
         private boolean isOwner;
+        private List<ReplyResponse.DTO> replies;
 
         public DetailDTO(Board board, User sessionUser){
             this.id = board.getId();
@@ -34,8 +41,9 @@ public class BoardResponse {
             if(sessionUser == null){
                 this.isOwner = false;
             }else{
-                this.isOwner = sessionUser.getId() == board.getUser().getId() ? true : false;
+                this.isOwner = sessionUser.getId() == board.getUser().getId();
             }
+            this.replies = board.getReplies().stream().map(reply -> new ReplyResponse.DTO(reply, sessionUser)).collect(Collectors.toList());
         }
     }
 

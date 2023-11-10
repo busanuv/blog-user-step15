@@ -19,11 +19,11 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public void 게시글쓰기(BoardRequest.SaveDTO requestDTO, User sessionUser){
+    public void 게시글쓰기(BoardRequest.SaveDTO requestDTO, User sessionUser) {
         try {
             boardRepository.save(requestDTO.toEntity(sessionUser));
-        }catch (Exception e){
-            log.error("DB error : "+e.getMessage());
+        } catch (Exception e) {
+            log.error("DB error : " + e.getMessage());
             throw new Exception500("게시글쓰기 오류");
         }
     }
@@ -33,20 +33,19 @@ public class BoardService {
         return boardListPS.stream().map(board -> new BoardResponse.DTO(board)).collect(Collectors.toList());
     }
 
-
     public BoardResponse.DetailDTO 게시글상세보기(Integer id, User sessionUser) {
-        Board boardPS = boardRepository.findById(id).orElseThrow(
-                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : "+id)
+        Board boardPS = boardRepository.findByIdFetchUserAndReplies(id).orElseThrow(
+                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : " + id)
         );
         return new BoardResponse.DetailDTO(boardPS, sessionUser);
     }
 
     public BoardResponse.UpdateFormDTO 게시글수정폼보기(Integer id, User sessionUser) {
         Board boardPS = boardRepository.findById(id).orElseThrow(
-                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : "+id)
+                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : " + id)
         );
 
-        if(sessionUser.getId() != boardPS.getUser().getId()){
+        if (sessionUser.getId() != boardPS.getUser().getId()) {
             throw new Exception403("당신은 해당 게시글을 수정할 권한이 없어요");
         }
         return new BoardResponse.UpdateFormDTO(boardPS);
@@ -55,9 +54,9 @@ public class BoardService {
     @Transactional
     public void 게시글수정하기(Integer id, BoardRequest.UpdateDTO requestDTO, User sessionUser) {
         Board boardPS = boardRepository.findById(id).orElseThrow(
-                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : "+id)
+                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : " + id)
         );
-        if(sessionUser.getId() != boardPS.getUser().getId()){
+        if (sessionUser.getId() != boardPS.getUser().getId()) {
             throw new Exception403("당신은 해당 게시글을 수정할 권한이 없어요");
         }
         boardPS.update(requestDTO.getTitle(), requestDTO.getContent());
@@ -66,9 +65,9 @@ public class BoardService {
     @Transactional
     public void 게시글삭제하기(Integer id, User sessionUser) {
         Board boardPS = boardRepository.findById(id).orElseThrow(
-                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : "+id)
+                () -> new Exception404("해당 id의 게시글을 찾을 수 없어요 : " + id)
         );
-        if(sessionUser.getId() != boardPS.getUser().getId()){
+        if (sessionUser.getId() != boardPS.getUser().getId()) {
             throw new Exception403("당신은 해당 게시글을 삭제할 권한이 없어요");
         }
         boardRepository.deleteById(boardPS.getId());

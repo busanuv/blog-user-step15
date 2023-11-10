@@ -28,7 +28,7 @@ public class BoardController {
     public String save(@Valid BoardRequest.SaveDTO requestDTO, Errors errors) {
         // 수정
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null){
+        if (sessionUser == null) {
             throw new Exception401("인증이 필요해요", false);
         }
         boardService.게시글쓰기(requestDTO, sessionUser);
@@ -38,7 +38,7 @@ public class BoardController {
     @PostMapping("/board/{id}/delete")
     public String delete(@PathVariable Integer id) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null){
+        if (sessionUser == null) {
             throw new Exception401("인증이 필요해요", false);
         }
         boardService.게시글삭제하기(id, sessionUser);
@@ -48,7 +48,7 @@ public class BoardController {
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable Integer id, @Valid BoardRequest.UpdateDTO requestDTO, Errors errors) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null){
+        if (sessionUser == null) {
             throw new Exception401("인증이 필요해요", false);
         }
         boardService.게시글수정하기(id, requestDTO, sessionUser);
@@ -58,10 +58,10 @@ public class BoardController {
     @GetMapping("/board/{id}/updateForm")
     public String updateForm(@PathVariable Integer id, HttpServletRequest request) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null){
+        if (sessionUser == null) {
             throw new Exception401("인증이 필요해요", false);
         }
-        
+
         BoardResponse.UpdateFormDTO responseDTO = boardService.게시글수정폼보기(id, sessionUser);
         request.setAttribute("board", responseDTO);
         return "board/updateForm";
@@ -85,7 +85,7 @@ public class BoardController {
     @GetMapping("/board/saveForm")
     public String saveForm() {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null){
+        if (sessionUser == null) {
             throw new Exception401("인증이 필요해요", false);
         }
         return "board/saveForm";

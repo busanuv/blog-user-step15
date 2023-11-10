@@ -15,15 +15,15 @@ public class MyExceptionHandler {
         return Script.back(e.getMessage());
     }
 
-    @ResponseBody
-    @ExceptionHandler(Exception401.class)
-    public String ex401(Exception401 e){
-        if(e.isBack()){
-            return Script.back(e.getMessage());
-        }else{
-            return Script.href("/loginForm", e.getMessage());
-        }
+@ResponseBody
+@ExceptionHandler(Exception401.class)
+public String ex401(Exception401 e){
+    if(e.isBack()){
+        return Script.back(e.getMessage());
+    }else{
+        return Script.href("/loginForm", e.getMessage());
     }
+}
 
     @ResponseBody
     @ExceptionHandler(Exception403.class)

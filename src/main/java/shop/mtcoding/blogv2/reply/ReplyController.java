@@ -8,6 +8,7 @@ public class ReplyController {
 
     // 디비 쿼리에 where절에 들어가는 값중에 unique한 값은 주소로 받는다.
     // delete from reply_tb where id = :replyId
+    // 읽어지는 주소를 만든다.
     @PostMapping("/board/{boardId}/reply/{replyId}/delete")
     public String delete(@PathVariable Integer boardId, @PathVariable Integer replyId){
         return "redirect:/board/"+boardId;
