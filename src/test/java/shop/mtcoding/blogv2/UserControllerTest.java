@@ -38,7 +38,7 @@ public class UserControllerTest {
     @Test
     public void login_test() throws Exception {
         // given
-        String requestBody = "username=ssar&password=1234"; // ssar로 테스트 해보기
+        String requestBody = "username=cos&password=1234"; // ssar로 테스트 해보기
 
         // when
         ResultActions resultActions = mvc.perform(
