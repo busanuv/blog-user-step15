@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shop.mtcoding.blogv2._core.error.ex.Exception400;
 import shop.mtcoding.blogv2._core.error.ex.Exception401;
 import shop.mtcoding.blogv2._core.error.ex.Exception404;
 import shop.mtcoding.blogv2._core.error.ex.Exception500;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @Slf4j
@@ -20,6 +22,11 @@ public class UserService {
 
     @Transactional // 트랜잭션 관리 (insert, delete, update)
     public void 회원가입(UserRequest.JoinDTO requestDTO){
+        Optional<User> userOP = userRepository.findByUsername(requestDTO.getUsername());
+        if(userOP.isPresent()){
+            throw new Exception400("동일한 유저네임이 존재합니다.");
+        }
+
         try {
             userRepository.save(requestDTO.toEntity());
         }catch (Exception e){
@@ -29,12 +36,8 @@ public class UserService {
     }
 
     public User 로그인(UserRequest.LoginDTO requestDTO){
-        User userPS = userRepository.findByUsernameAndPassword(requestDTO.getUsername(), requestDTO.getPassword());
-
-        // else 사용 자제 (if를 필터링 방식으로 사용)
-        if(userPS == null){
-            throw new Exception401("아이디 혹은 패스워드가 틀렸습니다", true);
-        }
+        User userPS = userRepository.findByUsernameAndPassword(requestDTO.getUsername(), requestDTO.getPassword())
+                .orElseThrow(() -> new Exception401("아이디 혹은 패스워드가 틀렸습니다", true));
         return userPS;
     }
 
