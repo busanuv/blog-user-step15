@@ -22,7 +22,7 @@ public class UserControllerTest {
     @Test
     public void join_test() throws Exception {
         // given
-        String requestBody = "username=cos&password=1234&email=love@nate.com"; // ssar로 테스트 해보기
+        String requestBody = "username=love&password=1234&email=love@nate.com"; // ssar로 테스트 해보기
 
         // when
         ResultActions resultActions = mvc.perform(
