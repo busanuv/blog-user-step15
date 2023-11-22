@@ -39,9 +39,9 @@ public class BoardControllerTest {
         // then
         BoardResponse.DetailDTO responseDTO =  (BoardResponse.DetailDTO) resultActions.andReturn().getRequest().getAttribute("board");
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
-        Assertions.assertThat(responseDTO.getTitle()).isEqualTo("제목1");
-        Assertions.assertThat(responseDTO.getContent()).isEqualTo("내용1");
-        Assertions.assertThat(responseDTO.getReplies().get(0).getComment()).isEqualTo("댓글1");
+        Assertions.assertThat(responseDTO.getTitle()).isEqualTo("title1");
+        Assertions.assertThat(responseDTO.getContent()).isEqualTo("content1");
+        Assertions.assertThat(responseDTO.getReplies().get(0).getComment()).isEqualTo("reply1");
     }
 
     @Test
@@ -58,7 +58,7 @@ public class BoardControllerTest {
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("sessionUser", sessionUser);
 
-        String requestBody = "title=제목4&content=내용4";
+        String requestBody = "title=title4&content=content4";
 
         // when
         ResultActions resultActions = mvc.perform(

@@ -24,6 +24,8 @@ spring:
     # 2 테이블을 자동 생성하면 안된다. 직접 만들어야 한다.
     hibernate:
       ddl-auto: none
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
 logging:
   level:

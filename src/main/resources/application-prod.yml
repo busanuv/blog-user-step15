@@ -18,6 +18,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 logging:
   level:
     '[shop.mtcoding.blogv2]': INFO
